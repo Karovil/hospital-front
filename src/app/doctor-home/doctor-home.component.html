@@ -1,0 +1,26 @@
+<div class="doctor-home">
+    <h2>Doctor's Home</h2>
+    <div class="panel">
+      <h3>Assigned Appointments</h3>
+      <ul>
+        <li>Appointment with Patient 1 on 20/05/2024</li>
+        <li>Appointment with Patient 2 on 21/05/2024</li>
+        <!-- Agrega más citas aquí según sea necesario -->
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Assign New Appointment</h3>
+      <form (ngSubmit)="onAssignAppointment()">
+        <div>
+          <label for="patient-name">Patient Name:</label>
+          <input type="text" id="patient-name" name="patient-name" required>
+        </div>
+        <div>
+          <label for="appointment-date">Appointment Date:</label>
+          <input type="date" id="appointment-date" name="appointment-date" required>
+        </div>
+        <button type="submit">Assign Appointment</button>
+      </form>
+    </div>
+  </div>
+  

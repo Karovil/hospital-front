@@ -1,0 +1,70 @@
+<!-- src/app/admin-home/admin-home.component.html -->
+<div class="admin-home">
+    <h2>Admin's Home</h2>
+    <!-- Sección de citas disponibles -->
+    <div class="panel">
+      <h3>Available Appointments</h3>
+      <ul>
+        <li *ngFor="let appointment of availableAppointments">
+          {{ appointment.doctor }} - {{ appointment.date }}
+        </li>
+      </ul>
+    </div>
+    <!-- Sección de citas asignadas -->
+    <div class="panel">
+      <h3>Assigned Appointments</h3>
+      <ul>
+        <li *ngFor="let appointment of assignedAppointments">
+          {{ appointment.patient }} - {{ appointment.date }}
+        </li>
+      </ul>
+    </div>
+    <!-- Formulario para asignar una nueva cita -->
+    <div class="panel">
+      <h3>Assign New Appointment</h3>
+      <form (submit)="assignAppointment(newPatient.value, newDate.value); newPatient.value=''; newDate.value=''">
+        <div>
+          <label for="newPatient">Patient Name:</label>
+          <input type="text" id="newPatient" #newPatient required>
+        </div>
+        <div>
+          <label for="newDate">Appointment Date:</label>
+          <input type="text" id="newDate" #newDate required>
+        </div>
+        <button type="submit">Assign Appointment</button>
+      </form>
+    </div>
+    <!-- Sección de Crear Usuario -->
+    <div class="panel">
+      <h3>Create User</h3>
+      <form>
+        <div>
+          <label for="new-username">Username:</label>
+          <input type="text" id="new-username" name="new-username">
+        </div>
+        <div>
+          <label for="new-password">Password:</label>
+          <input type="password" id="new-password" name="new-password">
+        </div>
+        <div>
+          <label for="new-role">Role:</label>
+          <select id="new-role" name="new-role">
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <button type="submit">Create User</button>
+      </form>
+    </div>
+    <!-- Sección de Usuarios Existentes -->
+    <div class="panel">
+      <h3>Existing Users</h3>
+      <ul>
+        <li>Doctor 1</li>
+        <li>Patient 1</li>
+        <li>Admin 1</li>
+        <!-- Agrega más usuarios aquí según sea necesario -->
+      </ul>
+    </div>
+  </div>

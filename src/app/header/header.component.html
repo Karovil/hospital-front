@@ -1,0 +1,12 @@
+<!-- src/app/header/header.component.html -->
+<header>
+    <nav>
+      <a routerLink="/">Login</a>
+      <a routerLink="/doctor-home" *ngIf="authService.hasRole('doctor')">Doctor</a>
+      <a routerLink="/patient-home" *ngIf="authService.hasRole('patient')">Patient</a>
+      <a routerLink="/admin-home" *ngIf="authService.hasRole('admin')">Admin</a>
+      <span *ngIf="authService.isAuthenticated()">Welcome, {{ authService.getUser()?.username }}</span>
+      <button *ngIf="authService.isAuthenticated()" (click)="onLogout()">Logout</button>
+    </nav>
+  </header>
+  
