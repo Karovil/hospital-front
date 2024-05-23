@@ -1,7 +1,101 @@
-<!-- src/app/admin-home/admin-home.component.html -->
 <div class="admin-home">
     <h2>Admin's Home</h2>
-    <!-- Sección de citas disponibles -->
+
+    <!-- Sección de Crear Usuario -->
+    <div class="panel">
+      <h3>Create User</h3>
+      <form (ngSubmit)="createUser()">
+        <div>
+          <label for="new-role">Role:</label>
+          <select id="new-role" name="new-role" [(ngModel)]="newUser.role" (change)="onRoleChange($event)">
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+          </select>
+        </div>
+        <div>
+          <label for="new-name">Name:</label>
+          <input type="text" id="new-name" [(ngModel)]="newUser.name" name="name" required>
+        </div>
+        <div *ngIf="newUser.role === 'patient'">
+          <div>
+            <label for="new-age">Age:</label>
+            <input type="number" id="new-age" [(ngModel)]="newUser.age" name="age" required>
+          </div>
+          <div>
+            <label for="new-rh">RH:</label>
+            <input type="text" id="new-rh" [(ngModel)]="newUser.rh" name="rh" required>
+          </div>
+        </div>
+        <div *ngIf="newUser.role === 'doctor'">
+          <div>
+            <label for="new-specialization">Specialization:</label>
+            <input type="text" id="new-specialization" [(ngModel)]="newUser.specialization" name="specialization" required>
+          </div>
+        </div>
+        <div>
+          <label for="new-email">Email:</label>
+          <input type="email" id="new-email" [(ngModel)]="newUser.email" name="email" required>
+        </div>
+        <div>
+          <label for="new-password">Password:</label>
+          <input type="password" id="new-password" [(ngModel)]="newUser.password" name="password" required>
+        </div>
+        <button type="submit">Create User</button>
+      </form>
+    </div>
+
+    <!-- Formulario para asignar una nueva cita -->
+    <div class="panel">
+      <h3>Assign New Appointment</h3>
+      <form (ngSubmit)="assignAppointment()">
+        <div>
+          <label for="doctorId">Doctor ID:</label>
+          <input type="text" id="doctorId" [(ngModel)]="newAppointment.doctorId" name="doctorId" required>
+        </div>
+       
+        <div>
+          <label for="appointmentDate">Appointment Date:</label>
+          <input type="datetime-local" id="appointmentDate" [(ngModel)]="newAppointment.date" name="date" required>
+        </div>
+        <div>
+          <label for="consultationRoom">Consultation Room:</label>
+          <input type="text" id="consultationRoom" [(ngModel)]="newAppointment.consultationRoom" name="consultationRoom" required>
+        </div>
+        <div>
+          <label for="diagnosis">Diagnosis:</label>
+          <input type="text" id="diagnosis" [(ngModel)]="newAppointment.diagnosis" name="diagnosis" required>
+        </div>
+        <button type="submit">Assign Appointment</button>
+      </form>
+    </div>
+
+    <!-- Formulario para editar una cita -->
+    <div *ngIf="editingAppointment" class="panel">
+      <h3>Edit Appointment</h3>
+      <form (ngSubmit)="updateAppointment()">
+        <div>
+          <label for="edit-doctorId">Doctor ID:</label>
+          <input type="text" id="edit-doctorId" [(ngModel)]="editingAppointment.doctorId" name="doctorId" required>
+        </div>
+    
+        <div>
+          <label for="edit-appointmentDate">Appointment Date:</label>
+          <input type="datetime-local" id="edit-appointmentDate" [(ngModel)]="editingAppointment.date" name="date" required>
+        </div>
+        <div>
+          <label for="edit-consultationRoom">Consultation Room:</label>
+          <input type="text" id="edit-consultationRoom" [(ngModel)]="editingAppointment.consultationRoom" name="consultationRoom" required>
+        </div>
+        <div>
+          <label for="edit-diagnosis">Diagnosis:</label>
+          <input type="text" id="edit-diagnosis" [(ngModel)]="editingAppointment.diagnosis" name="diagnosis" required>
+        </div>
+        <button type="submit">Update Appointment</button>
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Sección de citas disponibles y asignadas -->
     <div class="panel">
       <h3>Available Appointments</h3>
       <ul>
@@ -10,61 +104,25 @@
         </li>
       </ul>
     </div>
-    <!-- Sección de citas asignadas -->
     <div class="panel">
       <h3>Assigned Appointments</h3>
       <ul>
         <li *ngFor="let appointment of assignedAppointments">
           {{ appointment.patient }} - {{ appointment.date }}
+          <button (click)="editAppointment(appointment)">Edit</button>
+          <button (click)="deleteAppointment(appointment)">Delete</button>
         </li>
       </ul>
     </div>
-    <!-- Formulario para asignar una nueva cita -->
-    <div class="panel">
-      <h3>Assign New Appointment</h3>
-      <form (submit)="assignAppointment(newPatient.value, newDate.value); newPatient.value=''; newDate.value=''">
-        <div>
-          <label for="newPatient">Patient Name:</label>
-          <input type="text" id="newPatient" #newPatient required>
-        </div>
-        <div>
-          <label for="newDate">Appointment Date:</label>
-          <input type="text" id="newDate" #newDate required>
-        </div>
-        <button type="submit">Assign Appointment</button>
-      </form>
-    </div>
-    <!-- Sección de Crear Usuario -->
-    <div class="panel">
-      <h3>Create User</h3>
-      <form>
-        <div>
-          <label for="new-username">Username:</label>
-          <input type="text" id="new-username" name="new-username">
-        </div>
-        <div>
-          <label for="new-password">Password:</label>
-          <input type="password" id="new-password" name="new-password">
-        </div>
-        <div>
-          <label for="new-role">Role:</label>
-          <select id="new-role" name="new-role">
-            <option value="doctor">Doctor</option>
-            <option value="patient">Patient</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <button type="submit">Create User</button>
-      </form>
-    </div>
+
     <!-- Sección de Usuarios Existentes -->
     <div class="panel">
       <h3>Existing Users</h3>
       <ul>
-        <li>Doctor 1</li>
-        <li>Patient 1</li>
-        <li>Admin 1</li>
-        <!-- Agrega más usuarios aquí según sea necesario -->
+        <li *ngFor="let user of users">
+          {{ user.name }} - {{ user.role }}
+          <button (click)="deleteUser(user)">Delete</button>
+        </li>
       </ul>
     </div>
-  </div>
+</div>

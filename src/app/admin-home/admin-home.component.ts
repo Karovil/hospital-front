@@ -1,5 +1,25 @@
-// src/app/admin-home/admin-home.component.ts
 import { Component } from '@angular/core';
+
+// Define las interfaces para las citas y los usuarios
+interface Appointment {
+  doctorId: string;
+  patientId: string;
+  doctor: string;
+  patient: string;
+  date: string;
+  consultationRoom?: string;
+  diagnosis?: string;
+}
+
+interface User {
+  role: 'doctor' | 'patient';
+  name: string;
+  age?: number;
+  rh?: string;
+  specialization?: string;
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-admin-home',
@@ -7,23 +27,78 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent {
-  // Lista de citas disponibles (similares a las citas disponibles del componente PatientHomeComponent)
-  availableAppointments: { doctor: string, date: string }[] = [
-    { doctor: 'Doctor 1', date: '20/05/2024' },
-    { doctor: 'Doctor 2', date: '21/05/2024' },
-    // Agrega más citas disponibles aquí según sea necesario
-  ];
+  availableAppointments: Appointment[] = [];
+  assignedAppointments: Appointment[] = [];
+  users: User[] = [];
 
-  // Lista de citas asignadas (similares a las citas asignadas del componente DoctorHomeComponent)
-  assignedAppointments: { patient: string, date: string }[] = [
-    { patient: 'Patient 1', date: '20/05/2024' },
-    { patient: 'Patient 2', date: '21/05/2024' },
-    // Agrega más citas asignadas aquí según sea necesario
-  ];
+  newUser: User = {
+    role: 'patient',
+    name: '',
+    age: undefined,
+    rh: '',
+    specialization: '',
+    email: '',
+    password: ''
+  };
 
-  // Método para asignar una nueva cita (similares al método onAssignAppointment del componente DoctorHomeComponent)
-  assignAppointment(patient: string, date: string) {
-    // Lógica para asignar una nueva cita
-    console.log(`New appointment assigned to ${patient} on ${date}`);
+  newAppointment: Appointment = {
+    doctorId: '',
+    patientId: '',
+    doctor: '',
+    patient: '',
+    date: '',
+    consultationRoom: '',
+    diagnosis: ''
+  };
+
+  editingAppointment: Appointment | null = null;
+
+  onRoleChange(event: any) {
+    const selectedRole = event.target.value;
+    this.newUser = { role: selectedRole, name: '', age: undefined, rh: '', specialization: '', email: '', password: '' };
+  }
+
+  createUser() {
+    const newUser = { ...this.newUser };
+    this.users.push(newUser);
+    this.newUser = { role: 'patient', name: '', age: undefined, rh: '', specialization: '', email: '', password: '' };
+  }
+
+  assignAppointment() {
+    const newAppointment = { ...this.newAppointment };
+    this.assignedAppointments.push(newAppointment);
+    this.newAppointment = { doctorId: '', patientId: '', doctor: '', patient: '', date: '', consultationRoom: '', diagnosis: '' };
+  }
+
+  editAppointment(appointment: Appointment) {
+    this.editingAppointment = { ...appointment };
+  }
+
+  updateAppointment() {
+    if (this.editingAppointment) {
+      const index = this.assignedAppointments.findIndex(a => a === this.editingAppointment);
+      if (index > -1) {
+        this.assignedAppointments[index] = { ...this.editingAppointment };
+      }
+      this.editingAppointment = null;
+    }
+  }
+
+  cancelEdit() {
+    this.editingAppointment = null;
+  }
+
+  deleteUser(user: User) {
+    const index = this.users.indexOf(user);
+    if (index > -1) {
+      this.users.splice(index, 1);
+    }
+  }
+
+  deleteAppointment(appointment: Appointment) {
+    const index = this.assignedAppointments.indexOf(appointment);
+    if (index > -1) {
+      this.assignedAppointments.splice(index, 1);
+    }
   }
 }

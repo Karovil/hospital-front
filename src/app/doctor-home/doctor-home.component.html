@@ -1,26 +1,66 @@
 <div class="doctor-home">
     <h2>Doctor's Home</h2>
-    <div class="panel">
-      <h3>Assigned Appointments</h3>
-      <ul>
-        <li>Appointment with Patient 1 on 20/05/2024</li>
-        <li>Appointment with Patient 2 on 21/05/2024</li>
-        <!-- Agrega más citas aquí según sea necesario -->
-      </ul>
-    </div>
+  
+    <!-- Formulario para asignar una nueva cita -->
     <div class="panel">
       <h3>Assign New Appointment</h3>
-      <form (ngSubmit)="onAssignAppointment()">
+      <form (ngSubmit)="assignAppointment()">
+    
         <div>
-          <label for="patient-name">Patient Name:</label>
-          <input type="text" id="patient-name" name="patient-name" required>
+          <label for="appointmentDate">Appointment Date:</label>
+          <input type="datetime-local" id="appointmentDate" [(ngModel)]="newAppointment.date" name="date" required>
         </div>
         <div>
-          <label for="appointment-date">Appointment Date:</label>
-          <input type="date" id="appointment-date" name="appointment-date" required>
+          <label for="consultationRoom">Consultation Room:</label>
+          <input type="text" id="consultationRoom" [(ngModel)]="newAppointment.consultationRoom" name="consultationRoom" required>
+        </div>
+        <div>
+          <label for="diagnosis">Diagnosis:</label>
+          <input type="text" id="diagnosis" [(ngModel)]="newAppointment.diagnosis" name="diagnosis" required>
         </div>
         <button type="submit">Assign Appointment</button>
       </form>
+    </div>
+  
+    <!-- Formulario para editar una cita -->
+    <div *ngIf="editingAppointment" class="panel">
+      <h3>Edit Appointment</h3>
+      <form (ngSubmit)="updateAppointment()">
+        <div>
+          <label for="edit-patientId">Patient ID:</label>
+          <input type="text" id="edit-patientId" [(ngModel)]="editingAppointment.patientId" name="patientId" required>
+        </div>
+        <div>
+          <label for="edit-patient">Patient Name:</label>
+          <input type="text" id="edit-patient" [(ngModel)]="editingAppointment.patient" name="patient" required>
+        </div>
+        <div>
+          <label for="edit-appointmentDate">Appointment Date:</label>
+          <input type="datetime-local" id="edit-appointmentDate" [(ngModel)]="editingAppointment.date" name="date" required>
+        </div>
+        <div>
+          <label for="edit-consultationRoom">Consultation Room:</label>
+          <input type="text" id="edit-consultationRoom" [(ngModel)]="editingAppointment.consultationRoom" name="consultationRoom" required>
+        </div>
+        <div>
+          <label for="edit-diagnosis">Diagnosis:</label>
+          <input type="text" id="edit-diagnosis" [(ngModel)]="editingAppointment.diagnosis" name="diagnosis" required>
+        </div>
+        <button type="submit">Update Appointment</button>
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- Sección de citas asignadas -->
+    <div class="panel">
+      <h3>Assigned Appointments</h3>
+      <ul>
+        <li *ngFor="let appointment of assignedAppointments">
+          {{ appointment.patient }} - {{ appointment.date }}
+          <button (click)="editAppointment(appointment)">Edit</button>
+          <button (click)="deleteAppointment(appointment)">Delete</button>
+        </li>
+      </ul>
     </div>
   </div>
   
