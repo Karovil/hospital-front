@@ -70,8 +70,11 @@ export class AdminHomeComponent {
     // Verificar si el formato del correo electrónico es correcto
     const emailFormatValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.newUser.email);
 
-    // Si todos los campos obligatorios están llenos y el formato del correo es correcto, se crea el usuario
-    if (requiredFieldsFilled && emailFormatValid) {
+    // Verificar si el formato del RH es correcto (dos letras seguidas de un símbolo + o -)
+    const rhFormatValid = this.newUser.rh ? /^[A-Za-z]+[+-]$/.test(this.newUser.rh) : false;
+
+    // Si todos los campos obligatorios están llenos y los formatos son correctos, se crea el usuario
+    if (requiredFieldsFilled && emailFormatValid && rhFormatValid) {
       const newUser = { ...this.newUser };
       this.users.push(newUser);
       this.newUser = {
@@ -84,8 +87,8 @@ export class AdminHomeComponent {
         password: ''
       };
     } else {
-      // Si algún campo obligatorio está vacío o el formato del correo no es correcto, se muestra una alerta
-      alert('Please fill in all required fields with valid email format.');
+      // Si algún campo obligatorio está vacío o algún formato no es correcto, se muestra una alerta
+      alert('Please fill in all required fields with valid formats (email and RH).');
     }
   }
 
