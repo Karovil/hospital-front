@@ -57,60 +57,43 @@ export class AdminHomeComponent {
     this.newUser = { role: selectedRole, name: '', age: undefined, rh: '', specialization: '', email: '', password: '' };
   }
 
-  createUser() {  const requiredFieldsFilled = (
-    this.newUser.name &&
-    this.newUser.email &&
-    this.newUser.password &&
-    ((this.newUser.role === 'patient' && this.newUser.age && this.newUser.rh) ||
-    (this.newUser.role === 'doctor' && this.newUser.specialization))
-  );
+  createUser() {
+    // Verificar si todos los campos obligatorios están llenos
+    const requiredFieldsFilled = (
+      this.newUser.name &&
+      this.newUser.email &&
+      this.newUser.password &&
+      ((this.newUser.role === 'patient' && this.newUser.age && this.newUser.rh) ||
+      (this.newUser.role === 'doctor' && this.newUser.specialization))
+    );
 
-  // Si todos los campos obligatorios están llenos, se crea el usuario
-  if (requiredFieldsFilled) {
-    const newUser = { ...this.newUser };
-    this.users.push(newUser);
-    this.newUser = {
-      role: 'patient',
-      name: '',
-      age: undefined,
-      rh: '',
-      specialization: '',
-      email: '',
-      password: ''
-    };
-  } else {
-    // Si algún campo obligatorio está vacío, se muestra una alerta
-    alert('Please fill in all required fields.');
+    // Verificar si el formato del correo electrónico es correcto
+    const emailFormatValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.newUser.email);
+
+    // Si todos los campos obligatorios están llenos y el formato del correo es correcto, se crea el usuario
+    if (requiredFieldsFilled && emailFormatValid) {
+      const newUser = { ...this.newUser };
+      this.users.push(newUser);
+      this.newUser = {
+        role: 'patient',
+        name: '',
+        age: undefined,
+        rh: '',
+        specialization: '',
+        email: '',
+        password: ''
+      };
+    } else {
+      // Si algún campo obligatorio está vacío o el formato del correo no es correcto, se muestra una alerta
+      alert('Please fill in all required fields with valid email format.');
+    }
   }
-}
 
   assignAppointment() {
-     // Verificar si todos los campos obligatorios están llenos
-  const requiredFieldsFilled = (
-    this.newAppointment.doctorId &&
-    this.newAppointment.date &&
-    this.newAppointment.consultationRoom &&
-    this.newAppointment.diagnosis
-  );
-
-  // Si todos los campos obligatorios están llenos, se asigna la cita
-  if (requiredFieldsFilled) {
     const newAppointment = { ...this.newAppointment };
     this.assignedAppointments.push(newAppointment);
-    this.newAppointment = {
-      doctorId: 0,
-      patientId: '',
-      doctor: '',
-      patient: '',
-      date: '',
-      consultationRoom: '',
-      diagnosis: ''
-    };
-  } else {
-    // Si algún campo obligatorio está vacío, se muestra una alerta
-    alert('Please fill in all required fields.');
+    this.newAppointment = { doctorId: 0, patientId: '', doctor: '', patient: '', date: '', consultationRoom: '', diagnosis: '' };
   }
-}
 
   editAppointment(appointment: Appointment) {
     this.editingAppointment = { ...appointment };
