@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 // Define las interfaces para las citas y los usuarios
 interface Appointment {
-  doctorId: string;
+  doctorId: number;
   patientId: string;
   doctor: string;
   patient: string;
@@ -27,7 +27,6 @@ interface User {
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent {
-  availableAppointments: Appointment[] = [];
   assignedAppointments: Appointment[] = [];
   users: User[] = [];
 
@@ -42,7 +41,7 @@ export class AdminHomeComponent {
   };
 
   newAppointment: Appointment = {
-    doctorId: '',
+    doctorId: 0,
     patientId: '',
     doctor: '',
     patient: '',
@@ -67,7 +66,7 @@ export class AdminHomeComponent {
   assignAppointment() {
     const newAppointment = { ...this.newAppointment };
     this.assignedAppointments.push(newAppointment);
-    this.newAppointment = { doctorId: '', patientId: '', doctor: '', patient: '', date: '', consultationRoom: '', diagnosis: '' };
+    this.newAppointment = { doctorId: 0, patientId: '', doctor: '', patient: '', date: '', consultationRoom: '', diagnosis: '' };
   }
 
   editAppointment(appointment: Appointment) {

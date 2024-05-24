@@ -23,7 +23,7 @@
           </div>
           <div>
             <label for="new-rh">RH:</label>
-            <input type="text" id="new-rh" [(ngModel)]="newUser.rh" name="rh" required>
+            <input type="text" id="new-rh" [(ngModel)]="newUser.rh" name="rh" pattern="[A-Za-z]{2}[+-]{1}" title="Formato RH válido (por ejemplo: AB+)" required>
           </div>
         </div>
         <div *ngIf="newUser.role === 'doctor'">
@@ -35,6 +35,7 @@
         <div>
           <label for="new-email">Email:</label>
           <input type="email" id="new-email" [(ngModel)]="newUser.email" name="email" required>
+    
         </div>
         <div>
           <label for="new-password">Password:</label>
@@ -50,7 +51,7 @@
       <form (ngSubmit)="assignAppointment()">
         <div>
           <label for="doctorId">Doctor ID:</label>
-          <input type="text" id="doctorId" [(ngModel)]="newAppointment.doctorId" name="doctorId" required>
+          <input type="number" id="doctorId" [(ngModel)]="newAppointment.doctorId" name="doctorId" required>
         </div>
        
         <div>
@@ -75,7 +76,7 @@
       <form (ngSubmit)="updateAppointment()">
         <div>
           <label for="edit-doctorId">Doctor ID:</label>
-          <input type="text" id="edit-doctorId" [(ngModel)]="editingAppointment.doctorId" name="doctorId" required>
+          <input type="number" id="edit-doctorId" [(ngModel)]="editingAppointment.doctorId" name="doctorId" required>
         </div>
     
         <div>
@@ -93,26 +94,6 @@
         <button type="submit">Update Appointment</button>
         <button type="button" (click)="cancelEdit()">Cancel</button>
       </form>
-    </div>
-
-    <!-- Sección de citas disponibles y asignadas -->
-    <div class="panel">
-      <h3>Available Appointments</h3>
-      <ul>
-        <li *ngFor="let appointment of availableAppointments">
-          {{ appointment.doctor }} - {{ appointment.date }}
-        </li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Assigned Appointments</h3>
-      <ul>
-        <li *ngFor="let appointment of assignedAppointments">
-          {{ appointment.patient }} - {{ appointment.date }}
-          <button (click)="editAppointment(appointment)">Edit</button>
-          <button (click)="deleteAppointment(appointment)">Delete</button>
-        </li>
-      </ul>
     </div>
 
     <!-- Sección de Usuarios Existentes -->
