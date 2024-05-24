@@ -1,13 +1,13 @@
 <div class="admin-home">
     <h2>Admin's Home</h2>
-
+  
     <!-- Sección de Crear Usuario -->
     <div class="panel">
       <h3>Create User</h3>
       <form (ngSubmit)="createUser()">
         <div>
           <label for="new-role">Role:</label>
-          <select id="new-role" name="new-role" [(ngModel)]="newUser.role" (change)="onRoleChange($event)">
+          <select id="new-role" name="new-role" [(ngModel)]="newUser.role" (change)="onRoleChange($event)" required>
             <option value="doctor">Doctor</option>
             <option value="patient">Patient</option>
           </select>
@@ -35,7 +35,6 @@
         <div>
           <label for="new-email">Email:</label>
           <input type="email" id="new-email" [(ngModel)]="newUser.email" name="email" required>
-    
         </div>
         <div>
           <label for="new-password">Password:</label>
@@ -44,7 +43,7 @@
         <button type="submit">Create User</button>
       </form>
     </div>
-
+  
     <!-- Formulario para asignar una nueva cita -->
     <div class="panel">
       <h3>Assign New Appointment</h3>
@@ -53,7 +52,6 @@
           <label for="doctorId">Doctor ID:</label>
           <input type="number" id="doctorId" [(ngModel)]="newAppointment.doctorId" name="doctorId" required>
         </div>
-       
         <div>
           <label for="appointmentDate">Appointment Date:</label>
           <input type="datetime-local" id="appointmentDate" [(ngModel)]="newAppointment.date" name="date" required>
@@ -69,7 +67,7 @@
         <button type="submit">Assign Appointment</button>
       </form>
     </div>
-
+  
     <!-- Formulario para editar una cita -->
     <div *ngIf="editingAppointment" class="panel">
       <h3>Edit Appointment</h3>
@@ -78,7 +76,6 @@
           <label for="edit-doctorId">Doctor ID:</label>
           <input type="number" id="edit-doctorId" [(ngModel)]="editingAppointment.doctorId" name="doctorId" required>
         </div>
-    
         <div>
           <label for="edit-appointmentDate">Appointment Date:</label>
           <input type="datetime-local" id="edit-appointmentDate" [(ngModel)]="editingAppointment.date" name="date" required>
@@ -95,7 +92,7 @@
         <button type="button" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
-
+  
     <!-- Sección de Usuarios Existentes -->
     <div class="panel">
       <h3>Existing Users</h3>
@@ -106,4 +103,5 @@
         </li>
       </ul>
     </div>
-</div>
+  </div>
+  
